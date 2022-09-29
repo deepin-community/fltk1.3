@@ -1,0 +1,612 @@
+Combined patches from git.
+--- fltk1.3-1.3.5.orig/CMake/FLTKConfig.cmake.in
++++ fltk1.3-1.3.5/CMake/FLTKConfig.cmake.in
+@@ -29,7 +29,9 @@ if(CMAKE_CROSSCOMPILING)
+       PATHS ENV PATH
+       NO_CMAKE_FIND_ROOT_PATH
+    )
+-   add_executable(fluid IMPORTED)
++   if(NOT TARGET fluid)
++      add_executable(fluid IMPORTED)
++   endif(NOT TARGET fluid)
+    set_target_properties(fluid
+       PROPERTIES IMPORTED_LOCATION ${FLUID_PATH}
+    )
+--- fltk1.3-1.3.5.orig/Makefile
++++ fltk1.3-1.3.5/Makefile
+@@ -101,8 +101,8 @@ makeinclude: configure configh.in makein
+ 	touch config.h
+ 	chmod +x fltk-config
+ 
+-configure: configure.ac
+-	autoconf
++# configure: configure.ac
++# 	autoconf
+ 
+ config.guess config.sub:
+ 	-automake --add-missing 2> /dev/null
+--- fltk1.3-1.3.5.orig/cairo/Makefile
++++ fltk1.3-1.3.5/cairo/Makefile
+@@ -22,6 +22,8 @@
+ FLTKFLAGS = -DFL_LIBRARY
+ include ../makeinclude
+ 
++CXXFLAGS := $(CXXFLAGS:-fPIE=-fPIC)
++
+ #
+ # Object files...
+ #
+--- fltk1.3-1.3.5.orig/configure
++++ fltk1.3-1.3.5/configure
+@@ -705,6 +705,9 @@ FL_DSO_VERSION
+ FL_PATCH_VERSION
+ FL_MINOR_VERSION
+ FL_MAJOR_VERSION
++PKG_CONFIG_LIBDIR
++PKG_CONFIG_PATH
++PKG_CONFIG
+ ac_ct_CXX
+ CXXFLAGS
+ CXX
+@@ -801,6 +804,9 @@ CPPFLAGS
+ CXX
+ CXXFLAGS
+ CCC
++PKG_CONFIG
++PKG_CONFIG_PATH
++PKG_CONFIG_LIBDIR
+ CPP
+ XMKMF'
+ 
+@@ -1470,6 +1476,11 @@ Some influential environment variables:
+               you have headers in a nonstandard directory <include dir>
+   CXX         C++ compiler command
+   CXXFLAGS    C++ compiler flags
++  PKG_CONFIG  path to pkg-config utility
++  PKG_CONFIG_PATH
++              directories to add to pkg-config's search path
++  PKG_CONFIG_LIBDIR
++              path overriding pkg-config's built-in search path
+   CPP         C preprocessor
+   XMKMF       Path to xmkmf, Makefile generator for X Window System
+ 
+@@ -3631,6 +3642,126 @@ ac_link='$CC -o conftest$ac_exeext $CFLA
+ ac_compiler_gnu=$ac_cv_c_compiler_gnu
+ 
+ 
++
++
++
++
++
++
++if test "x$ac_cv_env_PKG_CONFIG_set" != "xset"; then
++	if test -n "$ac_tool_prefix"; then
++  # Extract the first word of "${ac_tool_prefix}pkg-config", so it can be a program name with args.
++set dummy ${ac_tool_prefix}pkg-config; ac_word=$2
++{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
++$as_echo_n "checking for $ac_word... " >&6; }
++if ${ac_cv_path_PKG_CONFIG+:} false; then :
++  $as_echo_n "(cached) " >&6
++else
++  case $PKG_CONFIG in
++  [\\/]* | ?:[\\/]*)
++  ac_cv_path_PKG_CONFIG="$PKG_CONFIG" # Let the user override the test with a path.
++  ;;
++  *)
++  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
++for as_dir in $PATH
++do
++  IFS=$as_save_IFS
++  test -z "$as_dir" && as_dir=.
++    for ac_exec_ext in '' $ac_executable_extensions; do
++  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
++    ac_cv_path_PKG_CONFIG="$as_dir/$ac_word$ac_exec_ext"
++    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
++    break 2
++  fi
++done
++  done
++IFS=$as_save_IFS
++
++  ;;
++esac
++fi
++PKG_CONFIG=$ac_cv_path_PKG_CONFIG
++if test -n "$PKG_CONFIG"; then
++  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $PKG_CONFIG" >&5
++$as_echo "$PKG_CONFIG" >&6; }
++else
++  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
++$as_echo "no" >&6; }
++fi
++
++
++fi
++if test -z "$ac_cv_path_PKG_CONFIG"; then
++  ac_pt_PKG_CONFIG=$PKG_CONFIG
++  # Extract the first word of "pkg-config", so it can be a program name with args.
++set dummy pkg-config; ac_word=$2
++{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
++$as_echo_n "checking for $ac_word... " >&6; }
++if ${ac_cv_path_ac_pt_PKG_CONFIG+:} false; then :
++  $as_echo_n "(cached) " >&6
++else
++  case $ac_pt_PKG_CONFIG in
++  [\\/]* | ?:[\\/]*)
++  ac_cv_path_ac_pt_PKG_CONFIG="$ac_pt_PKG_CONFIG" # Let the user override the test with a path.
++  ;;
++  *)
++  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
++for as_dir in $PATH
++do
++  IFS=$as_save_IFS
++  test -z "$as_dir" && as_dir=.
++    for ac_exec_ext in '' $ac_executable_extensions; do
++  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
++    ac_cv_path_ac_pt_PKG_CONFIG="$as_dir/$ac_word$ac_exec_ext"
++    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
++    break 2
++  fi
++done
++  done
++IFS=$as_save_IFS
++
++  ;;
++esac
++fi
++ac_pt_PKG_CONFIG=$ac_cv_path_ac_pt_PKG_CONFIG
++if test -n "$ac_pt_PKG_CONFIG"; then
++  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_pt_PKG_CONFIG" >&5
++$as_echo "$ac_pt_PKG_CONFIG" >&6; }
++else
++  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
++$as_echo "no" >&6; }
++fi
++
++  if test "x$ac_pt_PKG_CONFIG" = x; then
++    PKG_CONFIG=""
++  else
++    case $cross_compiling:$ac_tool_warned in
++yes:)
++{ $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: using cross tools not prefixed with host triplet" >&5
++$as_echo "$as_me: WARNING: using cross tools not prefixed with host triplet" >&2;}
++ac_tool_warned=yes ;;
++esac
++    PKG_CONFIG=$ac_pt_PKG_CONFIG
++  fi
++else
++  PKG_CONFIG="$ac_cv_path_PKG_CONFIG"
++fi
++
++fi
++if test -n "$PKG_CONFIG"; then
++	_pkg_min_version=0.9.0
++	{ $as_echo "$as_me:${as_lineno-$LINENO}: checking pkg-config is at least version $_pkg_min_version" >&5
++$as_echo_n "checking pkg-config is at least version $_pkg_min_version... " >&6; }
++	if $PKG_CONFIG --atleast-pkgconfig-version $_pkg_min_version; then
++		{ $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
++$as_echo "yes" >&6; }
++	else
++		{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
++$as_echo "no" >&6; }
++		PKG_CONFIG=""
++	fi
++fi
++
+ case $host_os in
+     darwin*)
+ 	if test "x$with_archflags" != x ; then
+@@ -3731,7 +3862,7 @@ if test x$enable_cairoext = xyes; then
+ 	  $as_echo "#define FLTK_HAVE_CAIRO 1" >>confdefs.h
+ 
+ 	  	  	  CAIRODIR="cairo"
+-	  CAIROFLAGS="`pkg-config --cflags cairo`"
++	  CAIROFLAGS="`$PKG_CONFIG --cflags cairo`"
+ 	  CAIROLIBS="-lcairo -lpixman-1"
+ 	  CXXFLAGS="$CAIROFLAGS $CXXFLAGS"
+ 	  LINKFLTKCAIRO="../lib/libfltk_cairo.a"
+@@ -3743,7 +3874,7 @@ else
+ 	  $as_echo "#define FLTK_HAVE_CAIRO 1" >>confdefs.h
+ 
+ 	  	  	  CAIRODIR="cairo"
+-	  CAIROFLAGS="`pkg-config --cflags cairo`"
++	  CAIROFLAGS="`$PKG_CONFIG --cflags cairo`"
+ 	  CAIROLIBS="-lcairo -lpixman-1"
+ 	  CXXFLAGS="$CAIROFLAGS $CXXFLAGS"
+ 	  LINKFLTKCAIRO="../lib/libfltk_cairo.a"
+@@ -3991,9 +4122,9 @@ $as_echo "$ac_cv_cxx_fvisibility_inlines
+ 		CXXFLAGS="$CXXFLAGS -fvisibility-inlines-hidden"
+ 	    fi
+ 
+-	    if test "x$libdir" != "x/usr/lib" -a "x$libdir" != "x/usr/lib64"; then
+-		    DSOLINK="-Wl,-rpath,$libdir"
+-	    fi
++# 	    if test "x$libdir" != "x/usr/lib" -a "x$libdir" != "x/usr/lib64"; then
++# 		    DSOLINK="-Wl,-rpath,$libdir"
++# 	    fi
+ 	    ;;
+ 	aix*)
+ 	    DSONAME="libfltk_s.a"
+@@ -7710,8 +7841,9 @@ fi
+ 	xft_found=no
+ 	if test x$enable_xft != xno; then
+             # Try pkg-config first (freetype2 deprecated freetype-config from some version on)
+-            # Extract the first word of "pkg-config", so it can be a program name with args.
+-set dummy pkg-config; ac_word=$2
++            if test -n "$ac_tool_prefix"; then
++  # Extract the first word of "${ac_tool_prefix}pkg-config", so it can be a program name with args.
++set dummy ${ac_tool_prefix}pkg-config; ac_word=$2
+ { $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
+ $as_echo_n "checking for $ac_word... " >&6; }
+ if ${ac_cv_path_PKGCONFIG+:} false; then :
+@@ -7750,6 +7882,63 @@ $as_echo "no" >&6; }
+ fi
+ 
+ 
++fi
++if test -z "$ac_cv_path_PKGCONFIG"; then
++  ac_pt_PKGCONFIG=$PKGCONFIG
++  # Extract the first word of "pkg-config", so it can be a program name with args.
++set dummy pkg-config; ac_word=$2
++{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
++$as_echo_n "checking for $ac_word... " >&6; }
++if ${ac_cv_path_ac_pt_PKGCONFIG+:} false; then :
++  $as_echo_n "(cached) " >&6
++else
++  case $ac_pt_PKGCONFIG in
++  [\\/]* | ?:[\\/]*)
++  ac_cv_path_ac_pt_PKGCONFIG="$ac_pt_PKGCONFIG" # Let the user override the test with a path.
++  ;;
++  *)
++  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
++for as_dir in $PATH
++do
++  IFS=$as_save_IFS
++  test -z "$as_dir" && as_dir=.
++    for ac_exec_ext in '' $ac_executable_extensions; do
++  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
++    ac_cv_path_ac_pt_PKGCONFIG="$as_dir/$ac_word$ac_exec_ext"
++    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
++    break 2
++  fi
++done
++  done
++IFS=$as_save_IFS
++
++  ;;
++esac
++fi
++ac_pt_PKGCONFIG=$ac_cv_path_ac_pt_PKGCONFIG
++if test -n "$ac_pt_PKGCONFIG"; then
++  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_pt_PKGCONFIG" >&5
++$as_echo "$ac_pt_PKGCONFIG" >&6; }
++else
++  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
++$as_echo "no" >&6; }
++fi
++
++  if test "x$ac_pt_PKGCONFIG" = x; then
++    PKGCONFIG=""
++  else
++    case $cross_compiling:$ac_tool_warned in
++yes:)
++{ $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: using cross tools not prefixed with host triplet" >&5
++$as_echo "$as_me: WARNING: using cross tools not prefixed with host triplet" >&2;}
++ac_tool_warned=yes ;;
++esac
++    PKGCONFIG=$ac_pt_PKGCONFIG
++  fi
++else
++  PKGCONFIG="$ac_cv_path_PKGCONFIG"
++fi
++
+             FT_FLAGS=""
+             if test "x$PKGCONFIG" != x; then
+                 FT_FLAGS="`$PKGCONFIG --cflags xft`"
+@@ -8666,7 +8855,7 @@ _ACEOF
+ 
+     else
+ 	cat >>confdefs.h <<_ACEOF
+-#define FLTK_DOCDIR "$prefix/share/doc/fltk"
++#define FLTK_DOCDIR "$prefix/share/doc/fltk1.3-doc/HTML"
+ _ACEOF
+ 
+     fi
+--- fltk1.3-1.3.5.orig/configure.ac
++++ fltk1.3-1.3.5/configure.ac
+@@ -40,6 +40,7 @@ OPTIM="${OPTIM:=}"
+ dnl Find compiler commands...
+ AC_PROG_CC
+ AC_PROG_CXX
++PKG_PROG_PKG_CONFIG
+ 
+ dnl So --with-archflags option is used during "checking size of long"
+ case $host_os in
+@@ -132,7 +133,7 @@ if test x$enable_cairoext = xyes; then
+ 	  dnl FIXME This part should be fixed so configure do not depend on
+ 	  dnl we do not rely on pkg-config .
+ 	  CAIRODIR="cairo"
+-	  CAIROFLAGS="`pkg-config --cflags cairo`"
++	  CAIROFLAGS="`$PKG_CONFIG --cflags cairo`"
+ 	  CAIROLIBS="-lcairo -lpixman-1"
+ 	  CXXFLAGS="$CAIROFLAGS $CXXFLAGS"
+ 	  LINKFLTKCAIRO="../lib/libfltk_cairo.a"
+@@ -146,7 +147,7 @@ else
+ 	  dnl FIXME This part should be fixed so configure do not depend on
+ 	  dnl we do not rely on pkg-config .
+ 	  CAIRODIR="cairo"
+-	  CAIROFLAGS="`pkg-config --cflags cairo`"
++	  CAIROFLAGS="`$PKG_CONFIG --cflags cairo`"
+ 	  CAIROLIBS="-lcairo -lpixman-1"
+ 	  CXXFLAGS="$CAIROFLAGS $CXXFLAGS"
+ 	  LINKFLTKCAIRO="../lib/libfltk_cairo.a"
+@@ -310,9 +311,9 @@ if test x$enable_shared = xyes; then
+ 		CXXFLAGS="$CXXFLAGS -fvisibility-inlines-hidden"
+ 	    fi
+ 
+-	    if test "x$libdir" != "x/usr/lib" -a "x$libdir" != "x/usr/lib64"; then
+-		    DSOLINK="-Wl,-rpath,$libdir"
+-	    fi
++# 	    if test "x$libdir" != "x/usr/lib" -a "x$libdir" != "x/usr/lib64"; then
++# 		    DSOLINK="-Wl,-rpath,$libdir"
++# 	    fi
+ 	    ;;
+ 	aix*)
+ 	    DSONAME="libfltk_s.a"
+@@ -1007,7 +1008,7 @@ case $host_os_gui in
+ 	xft_found=no
+ 	if test x$enable_xft != xno; then
+             # Try pkg-config first (freetype2 deprecated freetype-config from some version on)
+-            AC_PATH_PROG(PKGCONFIG, pkg-config)
++            AC_PATH_TOOL(PKGCONFIG, pkg-config)
+             FT_FLAGS=""
+             if test "x$PKGCONFIG" != x; then
+                 FT_FLAGS="`$PKGCONFIG --cflags xft`"
+@@ -1470,7 +1471,7 @@ case $host_os in
+     if test x$prefix = xNONE; then
+ 	AC_DEFINE_UNQUOTED(FLTK_DOCDIR, "/usr/local/share/doc/fltk")
+     else
+-	AC_DEFINE_UNQUOTED(FLTK_DOCDIR, "$prefix/share/doc/fltk")
++	AC_DEFINE_UNQUOTED(FLTK_DOCDIR, "$prefix/share/doc/fltk1.3-doc/HTML")
+     fi
+     ;;
+ esac
+--- fltk1.3-1.3.5.orig/documentation/Makefile
++++ fltk1.3-1.3.5/documentation/Makefile
+@@ -54,6 +54,8 @@ MANPAGES =	$(SRC_DOCDIR)/fltk.$(CAT3EXT)
+ 		$(SRC_DOCDIR)/fluid.$(CAT1EXT) $(SRC_DOCDIR)/blocks.$(CAT6EXT) \
+ 		$(SRC_DOCDIR)/checkers.$(CAT6EXT) $(SRC_DOCDIR)/sudoku.$(CAT6EXT)
+ 
++export DEB_DATE := $(shell cd .. && dpkg-parsechangelog -S Date)
++
+ all:	$(MANPAGES)
+ 
+ # Use `make docs' to create all docs for distribution files.
+@@ -77,10 +79,10 @@ depend:
+ 
+ install: $(MANPAGES)
+ 	echo "Installing documentation files in $(DESTDIR)$(docdir) ..."
+-	-$(INSTALL_DIR) $(DESTDIR)$(docdir)
++	-$(INSTALL_DIR) $(DESTDIR)$(docdir)/HTML
+ 	if test -f html/index.html ; then \
+ 	  for file in html/* ; do \
+-		$(INSTALL_DATA) $$file $(DESTDIR)$(docdir); \
++		$(INSTALL_DATA) $$file $(DESTDIR)$(docdir)/HTML; \
+ 	  done \
+ 	fi
+ 	if test -f fltk.pdf ; then \
+@@ -180,13 +182,18 @@ refman.pdf: $(HTMLFILES) Doxybook src/fl
+ 	echo "Generating PDF documentation ..."
+ 	$(DOXYDOC) Doxybook
+ 	./make_pdf
++        MD5=`(echo $(DEB_DATE) && du -b $@) | md5sum | cut -c -32` && \
++        sed -i "s|^/ID \\[\\(<[0-9A-F]\\{32\\}>\\) \\1]$$|/ID [<$$MD5> <$$MD5>]|" $@
+ 
+ src/fltk-book.tex: src/fltk-book.tex.in
+ 	DOXY_VERSION=`$(DOXYDOC) --version`; \
+-	YEAR=`date +%Y`; \
++	YEAR=`date -ud'$(DEB_DATE)' +%Y`; \
++	FLTK_VERSION=`cat ../VERSION`; \
++	TODAY=`date -ud'$(DEB_DATE)' +'%B %e, %Y'`; \
+ 	sed -e"s/@YEAR@/$$YEAR/g" \
+ 	    -e"s/@FL_VERSION@/$(FL_VERSION)/g" \
+ 	    -e"s/@DOXY_VERSION@/$$DOXY_VERSION/g" \
++	    -e"s/\\\\today{}/$$TODAY/g" \
+ 	< $< > $@
+ 
+ #
+--- fltk1.3-1.3.5.orig/documentation/make_pdf
++++ fltk1.3-1.3.5/documentation/make_pdf
+@@ -28,16 +28,24 @@
+ #
+ # Used in: Makefile and CMakeLists.txt
+ 
++PDF_DATE=`date -ud "$DEB_DATE" +D:%Y%m%d%H%M%SZ`
++run_pdflatex() {
++  pdflatex --interaction=nonstopmode \
++    "\pdfinfo{/CreationDate($PDF_DATE)/ModDate($PDF_DATE)}\input{refman.tex}"
++}
++
+ ( cd latex
+-  pdflatex --interaction=nonstopmode refman.tex
++  sed -i 's/\(\\caption{\(\\mbox{\)\?\)\\hyperlink{[^}]*}/\1/' \
++      classFl__Input.tex classFl__Tree.tex
++  run_pdflatex
+   makeindex refman.idx
+-  pdflatex --interaction=nonstopmode refman.tex
++  run_pdflatex
+   latex_count=5
+   while egrep -s 'Rerun (LaTeX|to get cross-references right)' refman.log \
+ 	  && [ $latex_count -gt 0 ]
+     do
+       echo "Rerunning pdflatex ..."
+-      pdflatex --interaction=nonstopmode refman.tex
++      run_pdflatex
+       latex_count=`expr $latex_count - 1`
+     done
+   cd ..) > pdfall.log 2>&1
+--- fltk1.3-1.3.5.orig/documentation/src/fltk-book.tex.in
++++ fltk1.3-1.3.5/documentation/src/fltk-book.tex.in
+@@ -1,6 +1,7 @@
+ % Latex header for FLTK generated by doxygen 1.8.13
+ \batchmode
+ \documentclass[twoside]{book}
++\usepackage{ifthen}
+ 
+ % Packages required by doxygen
+ \usepackage{fixltx2e}
+@@ -131,7 +132,7 @@
+ \vspace*{2cm}
+ \begin{DoxyImageNoCaption}
+  \mbox{\includegraphics[width=6cm]{FL200.png}}
+-\end{DoxyImageNoCaption}\\
++\end{DoxyImageNoCaption}
+ \vspace*{2cm}
+ {\Large
+ Revision 9 by F. Costantini, D. Gibson, M. Melcher, \\
+--- fltk1.3-1.3.5.orig/fltk-config.in
++++ fltk1.3-1.3.5/fltk-config.in
+@@ -228,26 +228,26 @@ if test "$BINARY_DIR" != ""; then
+     includes="-I$BINARY_DIR $includes"
+ fi
+ 
+-if test "$libdir" != /usr/lib -a "$libdir" != /usr/lib32; then
+-    libs=-L$libdir
+-else
+-    libs=
+-fi
++# if test "$libdir" != /usr/lib -a "$libdir" != /usr/lib32; then
++#     libs=-L$libdir
++# else
++#     libs=
++# fi
+ 
+ # Calculate needed libraries
+ LDSTATIC="$libdir/libfltk.a $LDLIBS"
+-LDLIBS="-lfltk$SHAREDSUFFIX $LDLIBS"
++LDLIBS="-lfltk$SHAREDSUFFIX -lX11"
+ 
+ if test x$use_forms = xyes; then
+     LDLIBS="-lfltk_forms$SHAREDSUFFIX $LDLIBS"
+     LDSTATIC="$libdir/libfltk_forms.a $LDSTATIC"
+ fi
+ if test x$use_gl = xyes; then
+-    LDLIBS="-lfltk_gl$SHAREDSUFFIX @GLLIB@ $LDLIBS"
++    LDLIBS="-lfltk_gl$SHAREDSUFFIX $LDLIBS"
+     LDSTATIC="$libdir/libfltk_gl.a @GLLIB@ $LDSTATIC"
+ fi
+ if test x$use_images = xyes; then
+-    LDLIBS="-lfltk_images$SHAREDSUFFIX $IMAGELIBS $LDLIBS"
++    LDLIBS="-lfltk_images$SHAREDSUFFIX $LDLIBS"
+     LDSTATIC="$libdir/libfltk_images.a $STATICIMAGELIBS $LDSTATIC"
+ fi
+ 
+@@ -286,8 +286,8 @@ if test -n "$compile"; then
+ 
+     post="$prog"
+ 
+-    echo $CXX $ARCHFLAGS $includes $CXXFLAGS $debug -o "'$prog'" "'$compile'" $LDSTATIC
+-    $CXX $ARCHFLAGS $includes $CXXFLAGS $debug -o "$prog" "$compile" $LDSTATIC || exit 1
++    echo $CXX $ARCHFLAGS $includes $CXXFLAGS $debug -o "'$prog'" "'$compile'" $LDLIBS
++    $CXX $ARCHFLAGS $includes $CXXFLAGS $debug -o "$prog" "$compile" $LDLIBS || exit 1
+ fi
+ 
+ if test -n "$post"; then
+@@ -332,11 +332,11 @@ EOF
+ fi
+ 
+ if test "$echo_cflags" = "yes"; then
+-    echo $includes $CFLAGS
++    echo "$includes $CFLAGS" | sed -e 's/ -[DfgOW][^ ]*//g' -e 's/^ *//'
+ fi
+ 
+ if test "$echo_cxxflags" = "yes"; then
+-    echo $includes $CXXFLAGS
++    echo "$includes $CXXFLAGS" | sed -e 's/ -[DfgOW][^ ]*//g' -e 's/^ *//'
+ fi
+ 
+ if test "$echo_optim" = "yes"; then
+@@ -356,11 +356,11 @@ if test "$echo_ldflags" = "yes"; then
+ 	    fi
+ 	fi
+     done
+-    echo $libdirs $my_libs
++    echo " $libdirs $my_libs" | sed -e 's/ -W[^ ]*//g' -e 's/^ *//'
+ fi
+ 
+ if test "$echo_ldstaticflags" = "yes"; then
+-    echo $LDSTATIC
++    echo " $LDSTATIC" | sed -e 's/ -W[^ ]*//g' -e 's/^ *//'
+ fi
+ 
+ if test "$echo_libs" = "yes"; then
+--- fltk1.3-1.3.5.orig/fluid/Makefile
++++ fltk1.3-1.3.5/fluid/Makefile
+@@ -85,8 +85,8 @@ install-linux:
+ 		fi; \
+ 		$(INSTALL_DATA) icons/fluid-$$size.png $(DESTDIR)/usr/share/icons/hicolor/$${size}x$${size}/apps/fluid.png; \
+ 	done
+-	-$(INSTALL_DIR) $(DESTDIR)/usr/share/mimelnk/application
+-	$(INSTALL_DATA) x-fluid.desktop  $(DESTDIR)/usr/share/mimelnk/application
++	-$(INSTALL_DIR) $(DESTDIR)/usr/share/mime/packages
++	$(INSTALL_DATA) fluid.xml $(DESTDIR)/usr/share/mime/packages
+ 
+ install-osx:
+ 	echo Installing Fluid in $(DESTDIR)/Applications...
+--- fltk1.3-1.3.5.orig/makeinclude.in
++++ fltk1.3-1.3.5/makeinclude.in
+@@ -37,7 +37,7 @@ includedir	= @includedir@
+ libdir		= @libdir@
+ mandir		= @mandir@
+ srcdir		= @srcdir@
+-docdir		= $(datadir)/doc/fltk
++docdir		= $(datadir)/doc/fltk1.3-doc
+ VPATH		= @srcdir@
+ USEMMFILES	= @USEMMFILES@
+ 
+@@ -143,7 +143,7 @@ INSTALL_DESKTOP	= @INSTALL_DESKTOP@
+ UNINSTALL_DESKTOP = @UNINSTALL_DESKTOP@
+ 
+ # Be quiet when building...
+-.SILENT:
++#.SILENT:
+ 
+ # Build commands and filename extensions...
+ .SUFFIXES:	.0 .1 .3 .6 .c .cxx .mm .h .fl .man .o .z $(EXEEXT)
+--- fltk1.3-1.3.5.orig/src/Makefile
++++ fltk1.3-1.3.5/src/Makefile
+@@ -219,6 +219,9 @@ UTF8CFILES = \
+ FLTKFLAGS = -DFL_LIBRARY
+ include ../makeinclude
+ 
++CFLAGS   := $(CFLAGS:-fPIE=-fPIC)
++CXXFLAGS := $(CXXFLAGS:-fPIE=-fPIC)
++
+ MMFILES = $(shell if test $(USEMMFILES) = Yes; then echo $(OBJCPPFILES); fi)
+ 
+ OBJECTS =  $(MMFILES:.mm=.o) $(CPPFILES:.cxx=.o) $(CFILES:.c=.o) $(UTF8CFILES:.c=.o)
+@@ -239,7 +242,7 @@ $(LIBNAME): $(OBJECTS)
+ 
+ libfltk.so.$(FL_DSO_VERSION): $(OBJECTS)
+ 	echo $(DSOCOMMAND) $@ ...
+-	$(DSOCOMMAND) $@ $(OBJECTS) $(LDLIBS)
++	$(DSOCOMMAND) $@ $(OBJECTS) $(LDLIBS) -lpthread
+ 	$(RM) libfltk.so
+ 	$(LN) libfltk.so.$(FL_DSO_VERSION) libfltk.so
+ 
+--- fltk1.3-1.3.5.orig/test/Makefile
++++ fltk1.3-1.3.5/test/Makefile
+@@ -18,6 +18,12 @@
+ 
+ include ../makeinclude
+ 
++# LINKFLTK      = -L../src -Wl,-rpath-link,../src -lfltk
++# LINKFLTKFORMS = -L../src -Wl,-rpath-link,../src -lfltk_forms -lfltk
++# LINKFLTKGL    = -L../src -Wl,-rpath-link,../src -lfltk_gl -lfltk
++# LINKFLTKIMG   = -L../src -Wl,-rpath-link,../src -lfltk_images -lfltk
++# LINKSHARED    = -L../src -Wl,-rpath-link,../src -lfltk_images -lfltk_forms -lfltk
++
+ CPPFILES =\
+ 	adjuster.cxx \
+ 	animated.cxx \
