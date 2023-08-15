@@ -1,3 +1,95 @@
+fltk1.3 (1.3.8-5) unstable; urgency=medium
+
+  * debian/fix-fltk-targets: Report command lines, which are now dynamic.
+    (See debian/rules changes below.)
+  * debian/libfltk*.symbols*: Accommodate LTO builds, which drop some
+    symbols (none of which anything in the archive uses AFAICT).
+    Specifically, pull out libfltk*.symbols.no-lto files and include them
+    with the "(optional)" tag.  (Closes: #1015406.)
+  * debian/**lintian-overrides: Add wildcards to accommodate pointed hints.
+  * debian/rules:
+    - Unhardcode path to stock FLTK-Targets(-none).cmake.
+      Per https://gitlab.kitware.com/cmake/cmake/-/issues/23883,
+      CMakeTmp/CMakeFiles/Export's subdirectory names are hexadecimal MD5
+      hash values as of CMake 3.24; automatic detection allows backports
+      to keep working and accommodates possible future layout changes.
+      (Closes: #1017271.)
+    - Inventory the final FLTK-Targets(-none).cmake files' add_* calls,
+      automatically catching blatant problems and making some potential
+      others immediately visible in build logs.
+  * documentation/Makefile: Use English ("C") month names for PDF date.
+    (Closes: #1017421.)
+  * Standards-Version: 4.6.1 (routine-update)
+
+ -- Aaron M. Ucko <ucko@debian.org>  Wed, 07 Sep 2022 23:16:48 -0400
+
+fltk1.3 (1.3.8-4) unstable; urgency=medium
+
+  * debian/copyright: Update years and png authors.  (NB: Debian still
+    doesn't use that tree, or FLTK's other convenience library copies.)
+  * CMake/UseFLTK.cmake.in: Drop include_directories setting, which has
+    never been useful for package builds.  It historically wound up
+    listing the standard system directory /usr/include, and now lists the
+    build directory and a subdirectory thereof, harming reproducibility
+    and breaking multiarch coinstallability for libfltk1.3-dev.
+
+ -- Aaron M. Ucko <ucko@debian.org>  Sun, 23 Jan 2022 20:24:56 -0500
+
+fltk1.3 (1.3.8-3) unstable; urgency=medium
+
+  * debian/rules: More fltk-config handling cleanups, now fixing builds
+    covering only architecture-independent binary packages.
+    - Remove debian/tmp/usr/bin/fltk-config from
+      override_dh_auto_install-indep, not just ...-arch.
+    - Retire override_dh_install-arch, now superfluous even in full builds.
+
+ -- Aaron M. Ucko <ucko@debian.org>  Sun, 16 Jan 2022 20:43:41 -0500
+
+fltk1.3 (1.3.8-2) unstable; urgency=medium
+
+  * debian/rules: Don't count on debian/tmp/usr/bin/fltk-config.  In
+    particular, in builds that cover only architecture-dependent binary
+    packages, override_dh_auto_install-indep won't recreate the file
+    between override_dh_auto_install-arch and override_dh_install-arch.
+
+ -- Aaron M. Ucko <ucko@debian.org>  Sat, 15 Jan 2022 23:33:09 -0500
+
+fltk1.3 (1.3.8-1) unstable; urgency=medium
+
+  [ Aaron M. Ucko ]
+  * New upstream release.
+  * debian/FLTK-Targets-head.cmake: New, to obtain DEB_HOST_MULTIARCH from
+    dpkg-architecture.
+  * debian/{FLTK-Targets-none-tail.cmake,fix-fltk-targets}: Split up
+    fix-fltk-targets-none.
+  * debian/control:
+    - Have libfltk1.3-dev depend on dpkg-dev for dpkg-architecture.
+    - Make libfltk1.3-dev multi-arch: same, as enabled by other changes in
+      this Debian release.  (Closes: #1002579).
+    - Stop worrying about Doxygen-unfriendly old texlive-latex-extra versions.
+    - Standards-Version: 4.6.0 (already compliant).
+  * debian/fix-fltk-targets: Substitute ${DEB_HOST_MULTIARCH} for the
+    architecture-specific value.
+  * debian/libfltk1.3.symbols: Add the one new symbol.
+  * debian/rules:
+    - Extend fix-fltk-targets to FLTK-Targets.cmake, just without the
+      additional fragment.
+    - For CMake, disable FLTK_BUILD_TEST rather than the deprecated
+      OPTION_BUILD_EXAMPLES.
+    - Supply a symlink to fltk-config's man page corresponding to its
+      architecture-prefixed name.
+    - Prepend FLTK-Targets-head.cmake to FLTK-Targets.cmake.
+    - Ensure makeinclude always sets USEMMFILES (to No).
+  * documentation/Makefile: Drop broken shell FLTK_VERSION setting.  (We
+    already have and use a perfectly good makefile setting, whereas the
+    shell setting derived from a file that changed names.)
+
+  [ Dima Kogan ]
+  * Arrange to install upstream's fltk-config with a GNU-tuple-prefixed
+    name; substitute a wrapper that consults dpkg-architecture.
+
+ -- Aaron M. Ucko <ucko@debian.org>  Sat, 15 Jan 2022 21:54:05 -0500
+
 fltk1.3 (1.3.5-3) unstable; urgency=medium
 
   * Standards-Version: 4.5.1 (routine-update)

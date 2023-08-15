@@ -1,4 +1,5 @@
-usr/bin/fltk-config
+usr/bin/*-fltk-config
+debian/fltk-config /usr/bin
 usr/include/FL/*.H
 usr/include/FL/abi-version.h
 usr/include/FL/dirent.h
