@@ -2,6 +2,7 @@ libfltk_images.so.1.3 libfltk-images1.3 #MINVER#
 * Build-Depends-Package: libfltk1.3-dev
 (optional)#include "libfltk-images1.3.symbols.no-gcc5"
 (optional)#include "libfltk-images1.3.symbols.no-clang"
+(optional)#include "libfltk-images1.3.symbols.no-lto"
  _Z18fl_register_imagesv@Base 0
  _ZN12Fl_BMP_ImageC1EPKc@Base 0
  _ZN12Fl_BMP_ImageC2EPKc@Base 0
@@ -49,18 +50,8 @@ libfltk_images.so.1.3 libfltk-images1.3 #MINVER#
  _ZN14Fl_Help_DialogD1Ev@Base 0
  _ZN14Fl_Help_DialogD2Ev@Base 0
  _ZNK14Fl_Help_Dialog5valueEv@Base 0
- _ZTI12Fl_BMP_Image@Base 0
- _ZTI12Fl_GIF_Image@Base 0
- _ZTI12Fl_PNG_Image@Base 0
- _ZTI12Fl_PNM_Image@Base 0
- _ZTI13Fl_JPEG_Image@Base 0
  _ZTS12Fl_BMP_Image@Base 0
  _ZTS12Fl_GIF_Image@Base 0
  _ZTS12Fl_PNG_Image@Base 0
  _ZTS12Fl_PNM_Image@Base 0
  _ZTS13Fl_JPEG_Image@Base 0
- _ZTV12Fl_BMP_Image@Base 0
- _ZTV12Fl_GIF_Image@Base 0
- _ZTV12Fl_PNG_Image@Base 0
- _ZTV12Fl_PNM_Image@Base 0
- _ZTV13Fl_JPEG_Image@Base 0

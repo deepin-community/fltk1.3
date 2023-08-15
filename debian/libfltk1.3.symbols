@@ -4,6 +4,7 @@ libfltk.so.1.3 libfltk1.3 #MINVER#
 (optional)#include "libfltk1.3.symbols.no-gcc49"
 (optional)#include "libfltk1.3.symbols.no-gcc5"
 (optional)#include "libfltk1.3.symbols.no-clang"
+(optional)#include "libfltk1.3.symbols.no-lto"
  FL_NORMAL_SIZE@Base 0
  XConvertUcsToUtf8@Base 0
  XConvertUtf8ToUcs@Base 0
@@ -25,6 +26,7 @@ libfltk.so.1.3 libfltk1.3 #MINVER#
  XUtf8_measure_extents@Base 1.3.0
  _Z10fl_measurePKcRiS1_i@Base 0
  _Z10fl_messagePKcz@Base 0
+ _Z11fl_choice_nPKcS0_S0_S0_z@Base 1.3.8
  _Z11fl_contrastjj@Base 0
  _Z11fl_down_boxiiiij@Base 0
  _Z11fl_draw_box10Fl_Boxtypeiiiij@Base 0
@@ -2251,7 +2253,6 @@ libfltk.so.1.3 libfltk1.3 #MINVER#
  _ZTI10Fl_Browser@Base 0
  _ZTI10Fl_Counter@Base 0
  _ZTI10Fl_Printer@Base 1.3.0
- _ZTI10Fl_Spinner@Base 0
  _ZTI10menuwindow@Base 0
  _ZTI11Fl_Adjuster@Base 0
  _ZTI11Fl_Browser_@Base 0
@@ -2259,39 +2260,25 @@ libfltk.so.1.3 libfltk1.3 #MINVER#
  _ZTI11Fl_Progress@Base 0
  _ZTI11Fl_Valuator@Base 0
  _ZTI11Flcc_HueBox@Base 0
- _ZTI12Fl_Fill_Dial@Base 1.3.1
  _ZTI12Fl_Help_View@Base 0
- _ZTI12Fl_Int_Input@Base 0
- _ZTI12Fl_Line_Dial@Base 1.3.1
  _ZTI12Fl_RGB_Image@Base 0
  _ZTI12Fl_Scrollbar@Base 0
  _ZTI12Fl_Table_Row@Base 0
- _ZTI12Fl_XBM_Image@Base 0
- _ZTI12Fl_XPM_Image@Base 0
  _ZTI13Fl_File_Input@Base 0
- _ZTI13Fl_Hor_Slider@Base 1.3.1
  _ZTI13Fl_Positioner@Base 0
  _ZTI13Fl_TooltipBox@Base 0
  _ZTI13Flcc_ValueBox@Base 0
- _ZTI14Fl_Fill_Slider@Base 1.3.1
- _ZTI14Fl_Float_Input@Base 1.3.1
  _ZTI14Fl_Menu_Button@Base 0
  _ZTI14Fl_Menu_Window@Base 0
- _ZTI14Fl_Nice_Slider@Base 1.3.1
  _ZTI14Fl_Preferences@Base 1.3.0
- _ZTI14Fl_Round_Clock@Base 1.3.1
  _ZTI14Fl_Text_Editor@Base 0
  _ZTI14Fl_Tiled_Image@Base 0
  _ZTI14Fl_Value_Input@Base 0
- _ZTI15Fl_Check_Button@Base 0
  _ZTI15Fl_Clock_Output@Base 0
  _ZTI15Fl_Copy_Surface@Base 1.3.3
  _ZTI15Fl_File_Browser@Base 0
- _ZTI15Fl_Hold_Browser@Base 1.3.1
- _ZTI15Fl_Input_Choice@Base 1.3.1
  _ZTI15Fl_Light_Button@Base 0
  _ZTI15Fl_Paged_Device@Base 0
- _ZTI15Fl_Radio_Button@Base 1.3.1
  _ZTI15Fl_Round_Button@Base 0
  _ZTI15Fl_Secret_Input@Base 1.3.1
  _ZTI15Fl_Shared_Image@Base 0
@@ -2299,37 +2286,23 @@ libfltk.so.1.3 libfltk1.3 #MINVER#
  _ZTI15Fl_Value_Output@Base 0
  _ZTI15Fl_Value_Slider@Base 0
  _ZTI16Fl_Check_Browser@Base 0
- _ZTI16Fl_Color_Chooser@Base 0
  _ZTI16Fl_Double_Window@Base 0
  _ZTI16Fl_Image_Surface@Base 1.3.3
- _ZTI16Fl_Multi_Browser@Base 1.3.1
  _ZTI16Fl_Repeat_Button@Base 0
  _ZTI16Fl_Return_Button@Base 0
  _ZTI16Fl_Single_Window@Base 0
- _ZTI16Fl_Toggle_Button@Base 1.3.1
  _ZTI16Fl_Xlib_Surface_@Base 1.3.3
  _ZTI16Flcc_Value_Input@Base 0
- _ZTI17Fl_Display_Device@Base 0
  _ZTI17Fl_Overlay_Window@Base 0
  _ZTI17Fl_Plugin_Manager@Base 1.3.0
- _ZTI17Fl_Select_Browser@Base 1.3.1
- _ZTI17Fl_Simple_Counter@Base 1.3.1
  _ZTI17Fl_Surface_Device@Base 0
  _ZTI18Fl_Graphics_Driver@Base 0
- _ZTI18Fl_Hor_Fill_Slider@Base 1.3.1
- _ZTI18Fl_Hor_Nice_Slider@Base 1.3.1
- _ZTI18Fl_Multiline_Input@Base 1.3.1
  _ZTI19Fl_GTK_File_Chooser@Base 1.3.3
- _ZTI19Fl_Hor_Value_Slider@Base 1.3.1
- _ZTI19Fl_Multiline_Output@Base 1.3.1
  _ZTI20Fl_FLTK_File_Chooser@Base 1.3.3
  _ZTI21Fl_PostScript_Printer@Base 0
- _ZTI21Fl_Radio_Light_Button@Base 1.3.1
- _ZTI21Fl_Radio_Round_Button@Base 1.3.1
  _ZTI23Fl_Xlib_Graphics_Driver@Base 0
  _ZTI25Fl_PostScript_File_Device@Base 0
  _ZTI29Fl_PostScript_Graphics_Driver@Base 0
- _ZTI35Fl_translated_Xlib_Graphics_Driver_@Base 1.3.3
  _ZTI6Fl_Box@Base 0
  _ZTI7Fl_Dial@Base 0
  _ZTI7Fl_Pack@Base 0
@@ -2360,7 +2333,6 @@ libfltk.so.1.3 libfltk1.3 #MINVER#
  _ZTI9Fl_Window@Base 0
  _ZTI9Fl_Wizard@Base 0
  _ZTI9menutitle@Base 0
- _ZTIN15Fl_Input_Choice15InputMenuButtonE@Base 1.3.1
  _ZTS10Fl_Browser@Base 0
  _ZTS10Fl_Counter@Base 0
  _ZTS10Fl_Printer@Base 1.3.0
@@ -2477,7 +2449,6 @@ libfltk.so.1.3 libfltk1.3 #MINVER#
  _ZTV10Fl_Browser@Base 0
  _ZTV10Fl_Counter@Base 0
  _ZTV10Fl_Printer@Base 1.3.0
- _ZTV10Fl_Spinner@Base 0
  _ZTV10menuwindow@Base 0
  _ZTV11Fl_Adjuster@Base 0
  _ZTV11Fl_Browser_@Base 0
@@ -2485,77 +2456,48 @@ libfltk.so.1.3 libfltk1.3 #MINVER#
  _ZTV11Fl_Progress@Base 0
  _ZTV11Fl_Valuator@Base 0
  _ZTV11Flcc_HueBox@Base 0
- _ZTV12Fl_Fill_Dial@Base 1.3.1
  _ZTV12Fl_Help_View@Base 0
- _ZTV12Fl_Int_Input@Base 0
- _ZTV12Fl_Line_Dial@Base 1.3.1
  _ZTV12Fl_RGB_Image@Base 0
  _ZTV12Fl_Scrollbar@Base 0
  _ZTV12Fl_Table_Row@Base 0
- _ZTV12Fl_XBM_Image@Base 0
- _ZTV12Fl_XPM_Image@Base 0
  _ZTV13Fl_File_Input@Base 0
- _ZTV13Fl_Hor_Slider@Base 1.3.1
  _ZTV13Fl_Positioner@Base 0
  _ZTV13Fl_TooltipBox@Base 0
  _ZTV13Flcc_ValueBox@Base 0
- _ZTV14Fl_Fill_Slider@Base 1.3.1
- _ZTV14Fl_Float_Input@Base 1.3.1
  _ZTV14Fl_Menu_Button@Base 0
  _ZTV14Fl_Menu_Window@Base 0
- _ZTV14Fl_Nice_Slider@Base 1.3.1
  _ZTV14Fl_Preferences@Base 1.3.0
- _ZTV14Fl_Round_Clock@Base 1.3.1
  _ZTV14Fl_Text_Editor@Base 0
  _ZTV14Fl_Tiled_Image@Base 0
  _ZTV14Fl_Value_Input@Base 0
- _ZTV15Fl_Check_Button@Base 0
  _ZTV15Fl_Clock_Output@Base 0
  _ZTV15Fl_Copy_Surface@Base 1.3.3
  _ZTV15Fl_File_Browser@Base 0
- _ZTV15Fl_Hold_Browser@Base 1.3.1
- _ZTV15Fl_Input_Choice@Base 1.3.1
  _ZTV15Fl_Light_Button@Base 0
  _ZTV15Fl_Paged_Device@Base 0
- _ZTV15Fl_Radio_Button@Base 1.3.1
- _ZTV15Fl_Round_Button@Base 0
  _ZTV15Fl_Secret_Input@Base 1.3.1
  _ZTV15Fl_Shared_Image@Base 0
  _ZTV15Fl_Text_Display@Base 0
  _ZTV15Fl_Value_Output@Base 0
  _ZTV15Fl_Value_Slider@Base 0
  _ZTV16Fl_Check_Browser@Base 0
- _ZTV16Fl_Color_Chooser@Base 0
  _ZTV16Fl_Double_Window@Base 0
  _ZTV16Fl_Image_Surface@Base 1.3.3
- _ZTV16Fl_Multi_Browser@Base 1.3.1
  _ZTV16Fl_Repeat_Button@Base 0
  _ZTV16Fl_Return_Button@Base 0
  _ZTV16Fl_Single_Window@Base 0
- _ZTV16Fl_Toggle_Button@Base 1.3.1
  _ZTV16Fl_Xlib_Surface_@Base 1.3.3
  _ZTV16Flcc_Value_Input@Base 0
- _ZTV17Fl_Display_Device@Base 0
  _ZTV17Fl_Overlay_Window@Base 0
  _ZTV17Fl_Plugin_Manager@Base 1.3.0
- _ZTV17Fl_Select_Browser@Base 1.3.1
- _ZTV17Fl_Simple_Counter@Base 1.3.1
  _ZTV17Fl_Surface_Device@Base 0
  _ZTV18Fl_Graphics_Driver@Base 0
- _ZTV18Fl_Hor_Fill_Slider@Base 1.3.1
- _ZTV18Fl_Hor_Nice_Slider@Base 1.3.1
- _ZTV18Fl_Multiline_Input@Base 1.3.1
  _ZTV19Fl_GTK_File_Chooser@Base 1.3.3
- _ZTV19Fl_Hor_Value_Slider@Base 1.3.1
- _ZTV19Fl_Multiline_Output@Base 1.3.1
  _ZTV20Fl_FLTK_File_Chooser@Base 1.3.3
  _ZTV21Fl_PostScript_Printer@Base 0
- _ZTV21Fl_Radio_Light_Button@Base 1.3.1
- _ZTV21Fl_Radio_Round_Button@Base 1.3.1
  _ZTV23Fl_Xlib_Graphics_Driver@Base 0
  _ZTV25Fl_PostScript_File_Device@Base 0
  _ZTV29Fl_PostScript_Graphics_Driver@Base 0
- _ZTV35Fl_translated_Xlib_Graphics_Driver_@Base 1.3.3
  _ZTV6Fl_Box@Base 0
  _ZTV7Fl_Dial@Base 0
  _ZTV7Fl_Pack@Base 0
@@ -2575,7 +2517,6 @@ libfltk.so.1.3 libfltk1.3 #MINVER#
  _ZTV9Fl_Button@Base 0
  _ZTV9Fl_Choice@Base 0
  _ZTV9Fl_Input_@Base 0
- _ZTV9Fl_Output@Base 1.3.1
  _ZTV9Fl_Pixmap@Base 0
  _ZTV9Fl_Plugin@Base 0
  _ZTV9Fl_Roller@Base 0
@@ -2585,7 +2526,6 @@ libfltk.so.1.3 libfltk1.3 #MINVER#
  _ZTV9Fl_Window@Base 0
  _ZTV9Fl_Wizard@Base 0
  _ZTV9menutitle@Base 0
- _ZTVN15Fl_Input_Choice15InputMenuButtonE@Base 1.3.1
  fl_XGetUtf8FontAndGlyph@Base 1.3.4
  fl_XaUtf8String@Base 0
  fl_XdndActionCopy@Base 0

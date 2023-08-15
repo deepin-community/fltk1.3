@@ -19,8 +19,8 @@ Build-Depends-Arch: cmake,
                     libasound2-dev [linux-any]
 Build-Depends-Indep: doxygen-latex,
                      texlive-font-utils,
-		     texlive-latex-extra (>= 2018.20190227-1~) | texlive-latex-extra (<< 2018.20181215~)
-Standards-Version: 4.5.1
+                     texlive-latex-extra
+Standards-Version: 4.6.1
 Vcs-Browser: https://salsa.debian.org/ucko/fltk1.3
 Vcs-Git: https://salsa.debian.org/ucko/fltk1.3.git
 Homepage: https://www.fltk.org/
@@ -46,8 +46,10 @@ Description: Fast Light Toolkit - user interface designer
 
 Package: libfltk1.3-dev
 Architecture: any
+Multi-Arch: same
 Section: libdevel
-Depends: libfltk-cairo1.3 (= ${binary:Version}),
+Depends: dpkg-dev,
+         libfltk-cairo1.3 (= ${binary:Version}),
          libfltk-forms1.3 (= ${binary:Version}),
          libfltk-gl1.3 (= ${binary:Version}),
          libfltk-images1.3 (= ${binary:Version}),

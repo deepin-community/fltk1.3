@@ -11,6 +11,7 @@ libdir = /usr/lib/$(DEB_HOST_MULTIARCH)
 GAMES = blocks checkers sudoku
 EXTRA_MFLAGS = OPTIM="$(CFLAGS) $(XCFLAGS)" STRIP=@:
 
+FLTK_CONFIG = $(DEB_HOST_GNU_TYPE)-fltk-config
 PKG_CONFIG = /usr/bin/$(DEB_HOST_GNU_TYPE)-pkg-config
 export PKG_CONFIG
 
@@ -27,13 +28,14 @@ override_dh_auto_clean:
 # Avoid reconfigure.  Removed by distclean.  >> deliberate -- keeping
 # existing contents allows for proper cleaning between builds.
 	echo 'RMDIR = rm -Rf' >> makeinclude
+	echo 'USEMMFILES = No' >> makeinclude
 	dh_auto_clean
 	mv fltk.spec.saved fltk.spec
 
 override_dh_clean:
 	rm -rf CMakeTmp
 	dh_clean documentation/doxygen_sqlite3.db debian/common-build-stamp
-	chmod +x debian/fix-fltk-targets-none
+	chmod +x debian/fix-fltk-targets debian/fltk-config
 
 override_dh_auto_configure:
 	[ -e fltk.spec.saved ] || mv fltk.spec fltk.spec.saved
@@ -41,13 +43,16 @@ ifneq "" "$(filter libfltk1.3-dev, $(shell dh_listpackages))"
 	mkdir -p CMakeTmp
 	dh_auto_configure -S cmake -B CMakeTmp -- -DOPTION_CAIRO:BOOL=ON \
 	    -DOPTION_BUILD_SHARED_LIBS:BOOL=ON -DOPTION_CREATE_LINKS:BOOL=ON \
-	    -DOPTION_BUILD_EXAMPLES:BOOL=OFF
-	sed -e 's/ STATIC /_STATIC&/' \
-	    CMakeTmp/CMakeFiles/Export/share/fltk/FLTK-Targets.cmake \
-	    > CMakeTmp/etc/FLTK-Targets.cmake
-	debian/fix-fltk-targets-none \
-	    CMakeTmp/CMakeFiles/Export/share/fltk/FLTK-Targets-none.cmake \
+	    -DFLTK_BUILD_TEST:BOOL=OFF
+	find CMakeTmp/CMakeFiles/Export -name FLTK-Targets.cmake \
+	    -exec debian/fix-fltk-targets debian/FLTK-Targets-head.cmake \
+	    {} \; > CMakeTmp/etc/FLTK-Targets.cmake
+	find CMakeTmp/CMakeFiles/Export -name FLTK-Targets-none.cmake \
+	    -exec debian/fix-fltk-targets {} \
+	    debian/FLTK-Targets-none-tail.cmake \; \
 	    > CMakeTmp/etc/FLTK-Targets-none.cmake
+	grep '^add_' CMakeTmp/etc/FLTK-Targets.cmake
+	grep '^add_' CMakeTmp/etc/FLTK-Targets-none.cmake
 endif
 	dh_auto_configure -- FTCONFIG="$(PKG_CONFIG) freetype2" \
             DSOFLAGS="$(filter-out -fPIE -pie,$(LDFLAGS))" \
@@ -97,20 +102,17 @@ override_dh_auto_install-arch:
 	cp debian/CMakeCache.txt CMakeTmp/etc/*.cmake \
 	    CMake/FLTK-Functions.cmake debian/tmp/usr/lib/fltk
 	sed -e 's/ -f[a-z]*-prefix-map=[^ ]*//' fltk-config \
-	    > debian/tmp/usr/bin/fltk-config
-	chmod +x debian/tmp/usr/bin/fltk-config
+	    > debian/tmp/usr/bin/$(FLTK_CONFIG)
+	chmod 755 debian/tmp/usr/bin/$(FLTK_CONFIG)
+	rm -f debian/tmp/usr/bin/fltk-config
 
-ifeq "" "$(filter nodoc,$(DEB_BUILD_OPTIONS))"
   override_dh_auto_install-indep:
+ifeq "" "$(filter nodoc,$(DEB_BUILD_OPTIONS))"
 	dh_auto_install -i -- DIRS='test'
+else
+	dh_auto_install -i
 endif
-
-override_dh_install-arch:
-## libfltk1.3-dev
-	sed -e 's/ -f[a-z]*-prefix-map=[^ ]*//' fltk-config \
-	    > debian/tmp/usr/bin/fltk-config
-	chmod +x debian/tmp/usr/bin/fltk-config
-	dh_install
+	rm -f debian/tmp/usr/bin/fltk-config
 
 override_dh_installdocs:
 	dh_installdocs -A CREDITS README
@@ -120,6 +122,11 @@ override_dh_installchangelogs:
 	for x in debian/*/usr/share/doc/*/changelog; do \
 	    mv -v $$x `dirname $$x`/NEWS; \
 	done
+
+override_dh_installman-arch:
+	dh_installman
+	ln -snfv fltk-config.1 \
+	    debian/libfltk1.3-dev/usr/share/man/man1/$(FLTK_CONFIG).1
 
 override_dh_missing:
 	dh_missing -Xusr/include/Fl

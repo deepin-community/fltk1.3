@@ -1,19 +1,17 @@
 #
-# "$Id$"
-#
 # Makefile for the Fast Light Tool Kit (FLTK) documentation.
 #
-# Copyright 1998-2015 by Bill Spitzak and others.
+# Copyright 1998-2020 by Bill Spitzak and others.
 #
 # This library is free software. Distribution and use rights are outlined in
 # the file "COPYING" which should have been included with this file.  If this
 # file is missing or damaged, see the license at:
 #
-#     http://www.fltk.org/COPYING.php
+#     https://www.fltk.org/COPYING.php
 #
-# Please report all bugs and problems on the following page:
+# Please see the following page on how to report bugs and issues:
 #
-#      http://www.fltk.org/str.php
+#      https://www.fltk.org/bugs.php
 #
 
 # Get configuration stuff...
@@ -54,6 +52,8 @@ MANPAGES =	$(SRC_DOCDIR)/fltk.$(CAT3EXT) $(SRC_DOCDIR)/fltk-config.$(CAT1EXT) \
 		$(SRC_DOCDIR)/fluid.$(CAT1EXT) $(SRC_DOCDIR)/blocks.$(CAT6EXT) \
 		$(SRC_DOCDIR)/checkers.$(CAT6EXT) $(SRC_DOCDIR)/sudoku.$(CAT6EXT)
 
+export DEB_DATE := $(shell cd .. && dpkg-parsechangelog -S Date)
+
 all:	$(MANPAGES)
 
 # Use `make docs' to create all docs for distribution files.
@@ -68,7 +68,7 @@ dist:	docs
 
 clean:
 	$(RM) Doxyfile Doxybook
-	$(RM) fltk.pdf refman.pdf src/fltk-book.tex
+	$(RM) fltk.pdf refman.pdf src/fltk-book.tex src/fltk-book.tex.in
 	$(RMDIR) html latex
 	$(RM) *~ *.bck *.bak *.log
 	$(RM) $(MANPAGES) $(SRC_DOCDIR)/*.0
@@ -77,10 +77,10 @@ depend:
 
 install: $(MANPAGES)
 	echo "Installing documentation files in $(DESTDIR)$(docdir) ..."
-	-$(INSTALL_DIR) $(DESTDIR)$(docdir)
+	-$(INSTALL_DIR) $(DESTDIR)$(docdir)/HTML
 	if test -f html/index.html ; then \
 	  for file in html/* ; do \
-		$(INSTALL_DATA) $$file $(DESTDIR)$(docdir); \
+		$(INSTALL_DATA) $$file $(DESTDIR)$(docdir)/HTML; \
 	  done \
 	fi
 	if test -f fltk.pdf ; then \
@@ -134,22 +134,22 @@ uninstall-linux uninstall-osx:
 
 Doxyfile: Doxyfile.in
 	echo "Generating Doxyfile ..."
-	sed -e's,@FL_VERSION@,$(FL_VERSION),' \
+	sed -e's,@FLTK_VERSION@,$(FLTK_VERSION),' \
 	    -e's,@GENERATE_HTML@,YES,' \
 	    -e's,@GENERATE_LATEX@,NO,' \
 	    -e's, @LATEX_HEADER@,,' \
 	    -e's,@CMAKE_CURRENT_SOURCE_DIR@/,,' \
-	    -e's,@CMAKE_SOURCE_DIR@/,../,' \
+	    -e's,@FLTK_SOURCE_DIR@/,../,' \
 	    < $< > $@
 
 Doxybook: Doxyfile.in
 	echo "Generating Doxybook ..."
-	sed -e's,@FL_VERSION@,$(FL_VERSION),' \
+	sed -e's,@FLTK_VERSION@,$(FLTK_VERSION),' \
 	    -e's,@GENERATE_HTML@,NO,' \
 	    -e's,@GENERATE_LATEX@,YES,' \
 	    -e's,@LATEX_HEADER@,src/fltk-book.tex,' \
 	    -e's,@CMAKE_CURRENT_SOURCE_DIR@/,,' \
-	    -e's,@CMAKE_SOURCE_DIR@/,../,' \
+	    -e's,@FLTK_SOURCE_DIR@/,../,' \
 	    < $< > $@
 
 # The HTML files are generated using doxygen, and this needs
@@ -180,15 +180,20 @@ refman.pdf: $(HTMLFILES) Doxybook src/fltk-book.tex
 	echo "Generating PDF documentation ..."
 	$(DOXYDOC) Doxybook
 	./make_pdf
+        MD5=`(echo $(DEB_DATE) && du -b $@) | md5sum | cut -c -32` && \
+        sed -i "s|^/ID \\[\\(<[0-9A-F]\\{32\\}>\\) \\1]$$|/ID [<$$MD5> <$$MD5>]|" $@
 
 src/fltk-book.tex: src/fltk-book.tex.in
-	DOXY_VERSION=`$(DOXYDOC) --version`; \
-	YEAR=`date +%Y`; \
+	echo "Generating $@ ..."
+	DOXY_VERSION=`$(DOXYDOC) --version|cut -f1 -d' '`; \
+	YEAR=`date -ud'$(DEB_DATE)' +%Y`; \
+	TODAY=`LC_ALL=C date -ud'$(DEB_DATE)' +'%B %e, %Y'`; \
 	sed -e"s/@YEAR@/$$YEAR/g" \
-	    -e"s/@FL_VERSION@/$(FL_VERSION)/g" \
+	    -e"s/@FLTK_VERSION@/$(FLTK_VERSION)/g" \
 	    -e"s/@DOXY_VERSION@/$$DOXY_VERSION/g" \
+	    -e"s/\\\\today{}/$$TODAY/g" \
 	< $< > $@
 
-#
-# End of "$Id$".
-#
+src/fltk-book.tex.in: src/fltk-title.tex.in
+	echo "Generating $@ ..."
+	./make_header src/fltk-title.tex.in src/fltk-book.tex.in

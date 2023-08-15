@@ -4,7 +4,7 @@ Upstream-Contact: fltk@fltk.org
 Source: http://www.fltk.org/
 
 Files: *
-Copyright: 1998-2019 Bill Spitzak (spitzak@users.sourceforge.net) and others,
+Copyright: 1998-2021 Bill Spitzak (spitzak@users.sourceforge.net) and others,
    most notably the following:
    .
           Greg Ercolano
@@ -95,7 +95,7 @@ License: LGPL-2+ with static linking exception
  in particular, /usr/share/common-licenses/LGPL-2 contains version 2.
 
 Files: jpeg/*
-Copyright: 1991-2014, Thomas G. Lane, Guido Vollbeding.
+Copyright: 1991-2020, Thomas G. Lane, Guido Vollbeding.
 Comment: Unused by Debian.
 License: JPEG
  Permission is hereby granted to use, copy, modify, and distribute this
@@ -114,8 +114,10 @@ License: JPEG
 
 Files: png/*
 Copyright: 1995, 1996 Guy Eric Schalnat, Group 42, Inc.
+           1995-2019 The PNG Reference Library Authors
            1996, 1997 Andreas Dilger
-           1998, 1999-2002, 2004, 2006-2014 Glenn Randers-Pehrson.
+           1998, 1999-2002, 2004, 2006-2014 Glenn Randers-Pehrson
+           2018-2019 Cosmin Truta.
 Comment: Unused by Debian.
 License: PNG
  Permission is hereby granted to use, copy, modify, and distribute this
@@ -161,7 +163,7 @@ License: SGI-OpenGL
  written prior permission.
 
 Files: zlib/*
-Copyright: 1995-2013 Jean-loup Gailly and Mark Adler.
+Copyright: 1995-2017 Jean-loup Gailly and Mark Adler.
 Comment: Unused by Debian.
 License: Zlib
   Permission is granted to anyone to use this software for any purpose,

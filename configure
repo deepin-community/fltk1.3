@@ -632,7 +632,7 @@ INSTALL_DESKTOP
 THREADS
 OSX_ONLY
 HLINKS
-GLLIB
+GLLIBS
 XPROP
 FTCONFIG
 PKGCONFIG
@@ -665,6 +665,7 @@ NROFF
 INSTALL_DATA
 INSTALL_SCRIPT
 INSTALL_PROGRAM
+FLUID_BUILD
 FLUID
 LINKSHARED
 SHAREDSUFFIX
@@ -699,12 +700,15 @@ CAIROFLAGS
 CAIRODIR
 OPTIM
 ARCHFLAGS
-FL_VERSION
+FLTK_VERSION
 FL_ABI_VERSION
 FL_DSO_VERSION
-FL_PATCH_VERSION
-FL_MINOR_VERSION
-FL_MAJOR_VERSION
+FLTK_VERSION_PATCH
+FLTK_VERSION_MINOR
+FLTK_VERSION_MAJOR
+PKG_CONFIG_LIBDIR
+PKG_CONFIG_PATH
+PKG_CONFIG
 ac_ct_CXX
 CXXFLAGS
 CXX
@@ -801,6 +805,9 @@ CPPFLAGS
 CXX
 CXXFLAGS
 CCC
+PKG_CONFIG
+PKG_CONFIG_PATH
+PKG_CONFIG_LIBDIR
 CPP
 XMKMF'
 
@@ -1470,6 +1477,11 @@ Some influential environment variables:
               you have headers in a nonstandard directory <include dir>
   CXX         C++ compiler command
   CXXFLAGS    C++ compiler flags
+  PKG_CONFIG  path to pkg-config utility
+  PKG_CONFIG_PATH
+              directories to add to pkg-config's search path
+  PKG_CONFIG_LIBDIR
+              path overriding pkg-config's built-in search path
   CPP         C preprocessor
   XMKMF       Path to xmkmf, Makefile generator for X Window System
 
@@ -3631,6 +3643,126 @@ ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $
 ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 
+
+
+
+
+
+
+if test "x$ac_cv_env_PKG_CONFIG_set" != "xset"; then
+	if test -n "$ac_tool_prefix"; then
+  # Extract the first word of "${ac_tool_prefix}pkg-config", so it can be a program name with args.
+set dummy ${ac_tool_prefix}pkg-config; ac_word=$2
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
+$as_echo_n "checking for $ac_word... " >&6; }
+if ${ac_cv_path_PKG_CONFIG+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  case $PKG_CONFIG in
+  [\\/]* | ?:[\\/]*)
+  ac_cv_path_PKG_CONFIG="$PKG_CONFIG" # Let the user override the test with a path.
+  ;;
+  *)
+  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+    for ac_exec_ext in '' $ac_executable_extensions; do
+  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
+    ac_cv_path_PKG_CONFIG="$as_dir/$ac_word$ac_exec_ext"
+    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+  done
+IFS=$as_save_IFS
+
+  ;;
+esac
+fi
+PKG_CONFIG=$ac_cv_path_PKG_CONFIG
+if test -n "$PKG_CONFIG"; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $PKG_CONFIG" >&5
+$as_echo "$PKG_CONFIG" >&6; }
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+fi
+
+
+fi
+if test -z "$ac_cv_path_PKG_CONFIG"; then
+  ac_pt_PKG_CONFIG=$PKG_CONFIG
+  # Extract the first word of "pkg-config", so it can be a program name with args.
+set dummy pkg-config; ac_word=$2
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
+$as_echo_n "checking for $ac_word... " >&6; }
+if ${ac_cv_path_ac_pt_PKG_CONFIG+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  case $ac_pt_PKG_CONFIG in
+  [\\/]* | ?:[\\/]*)
+  ac_cv_path_ac_pt_PKG_CONFIG="$ac_pt_PKG_CONFIG" # Let the user override the test with a path.
+  ;;
+  *)
+  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+    for ac_exec_ext in '' $ac_executable_extensions; do
+  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
+    ac_cv_path_ac_pt_PKG_CONFIG="$as_dir/$ac_word$ac_exec_ext"
+    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+  done
+IFS=$as_save_IFS
+
+  ;;
+esac
+fi
+ac_pt_PKG_CONFIG=$ac_cv_path_ac_pt_PKG_CONFIG
+if test -n "$ac_pt_PKG_CONFIG"; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_pt_PKG_CONFIG" >&5
+$as_echo "$ac_pt_PKG_CONFIG" >&6; }
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+fi
+
+  if test "x$ac_pt_PKG_CONFIG" = x; then
+    PKG_CONFIG=""
+  else
+    case $cross_compiling:$ac_tool_warned in
+yes:)
+{ $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: using cross tools not prefixed with host triplet" >&5
+$as_echo "$as_me: WARNING: using cross tools not prefixed with host triplet" >&2;}
+ac_tool_warned=yes ;;
+esac
+    PKG_CONFIG=$ac_pt_PKG_CONFIG
+  fi
+else
+  PKG_CONFIG="$ac_cv_path_PKG_CONFIG"
+fi
+
+fi
+if test -n "$PKG_CONFIG"; then
+	_pkg_min_version=0.9.0
+	{ $as_echo "$as_me:${as_lineno-$LINENO}: checking pkg-config is at least version $_pkg_min_version" >&5
+$as_echo_n "checking pkg-config is at least version $_pkg_min_version... " >&6; }
+	if $PKG_CONFIG --atleast-pkgconfig-version $_pkg_min_version; then
+		{ $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+$as_echo "yes" >&6; }
+	else
+		{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+		PKG_CONFIG=""
+	fi
+fi
+
 case $host_os in
     darwin*)
 	if test "x$with_archflags" != x ; then
@@ -3639,12 +3771,12 @@ case $host_os in
 	;;
 esac
 
-FL_MAJOR_VERSION=1
-FL_MINOR_VERSION=3
-FL_PATCH_VERSION=5
-FL_DSO_VERSION=${FL_MAJOR_VERSION}.${FL_MINOR_VERSION}
-FL_ABI_VERSION=${FL_MAJOR_VERSION}.${FL_MINOR_VERSION}.0
-FL_VERSION=${FL_MAJOR_VERSION}.${FL_MINOR_VERSION}.${FL_PATCH_VERSION}
+FLTK_VERSION_MAJOR=1
+FLTK_VERSION_MINOR=3
+FLTK_VERSION_PATCH=8
+FL_DSO_VERSION=${FLTK_VERSION_MAJOR}.${FLTK_VERSION_MINOR}
+FL_ABI_VERSION=${FLTK_VERSION_MAJOR}.${FLTK_VERSION_MINOR}.0
+FLTK_VERSION=${FLTK_VERSION_MAJOR}.${FLTK_VERSION_MINOR}.${FLTK_VERSION_PATCH}
 
 
 
@@ -3682,7 +3814,7 @@ fi
     darwin*)
 	if test x$enable_x11 = xyes; then
 		host_os_gui="X11"
-		OPTIM="-U__APPLE__ -mmacosx-version-min=10.3 $OPTIM"
+		OPTIM="-U__APPLE__ -mmacosx-version-min=10.9 -D_LIBCPP_HAS_THREAD_API_PTHREAD $OPTIM"
 	fi
 	;;
    *)
@@ -3731,7 +3863,7 @@ if test x$enable_cairoext = xyes; then
 	  $as_echo "#define FLTK_HAVE_CAIRO 1" >>confdefs.h
 
 	  	  	  CAIRODIR="cairo"
-	  CAIROFLAGS="`pkg-config --cflags cairo`"
+	  CAIROFLAGS="`$PKG_CONFIG --cflags cairo`"
 	  CAIROLIBS="-lcairo -lpixman-1"
 	  CXXFLAGS="$CAIROFLAGS $CXXFLAGS"
 	  LINKFLTKCAIRO="../lib/libfltk_cairo.a"
@@ -3743,7 +3875,7 @@ else
 	  $as_echo "#define FLTK_HAVE_CAIRO 1" >>confdefs.h
 
 	  	  	  CAIRODIR="cairo"
-	  CAIROFLAGS="`pkg-config --cflags cairo`"
+	  CAIROFLAGS="`$PKG_CONFIG --cflags cairo`"
 	  CAIROLIBS="-lcairo -lpixman-1"
 	  CXXFLAGS="$CAIROFLAGS $CXXFLAGS"
 	  LINKFLTKCAIRO="../lib/libfltk_cairo.a"
@@ -3991,9 +4123,9 @@ $as_echo "$ac_cv_cxx_fvisibility_inlines" >&6; }
 		CXXFLAGS="$CXXFLAGS -fvisibility-inlines-hidden"
 	    fi
 
-	    if test "x$libdir" != "x/usr/lib" -a "x$libdir" != "x/usr/lib64"; then
-		    DSOLINK="-Wl,-rpath,$libdir"
-	    fi
+# 	    if test "x$libdir" != "x/usr/lib" -a "x$libdir" != "x/usr/lib64"; then
+# 		    DSOLINK="-Wl,-rpath,$libdir"
+# 	    fi
 	    ;;
 	aix*)
 	    DSONAME="libfltk_s.a"
@@ -4063,6 +4195,13 @@ else
     FLUID="fluid"
     LINKSHARED="$LINKFLTKCAIRO ../lib/libfltk_images.a ../lib/libfltk_forms.a ../lib/libfltk.a"
 fi
+
+if test "$fltk_cross_compiling" = "yes"; then
+  FLUID_BUILD="fluid"
+else
+  FLUID_BUILD="../fluid/fluid$EXEEXT"
+fi
+
 
 
 
@@ -6641,7 +6780,7 @@ case $host_os_gui in
 if test "x$ac_cv_header_GL_gl_h" = xyes; then :
   $as_echo "#define HAVE_GL 1" >>confdefs.h
 
-		GLLIB="-lopengl32"
+		GLLIBS="-lopengl32"
 fi
 
 
@@ -6649,7 +6788,7 @@ fi
 if test "x$ac_cv_header_GL_glu_h" = xyes; then :
   $as_echo "#define HAVE_GL_GLU_H 1" >>confdefs.h
 
-		GLLIB="-lglu32 $GLLIB"
+		GLLIBS="-lglu32 $GLLIBS"
 fi
 
 
@@ -6695,7 +6834,7 @@ fi
 
 	    $as_echo "#define HAVE_GL_GLU_H 1" >>confdefs.h
 
-	    GLLIB="-framework OpenGL"
+	    GLLIBS="-framework OpenGL"
 	else
 	    LINKFLTKGL=""
 	    GLLIBNAME=""
@@ -7429,7 +7568,7 @@ $as_echo "$as_me: WARNING: Ignoring libraries \"$X_PRE_LIBS\" requested by confi
 	    ac_cpp="$ac_cpp -I$x_includes"
 	fi
 
-		GLLIB=
+		GLLIBS=
 
 	if test x$enable_gl != xno; then
 	    { $as_echo "$as_me:${as_lineno-$LINENO}: checking for library containing dlopen" >&5
@@ -7529,7 +7668,7 @@ $as_echo "$ac_cv_lib_GL_glXMakeCurrent" >&6; }
 if test "x$ac_cv_lib_GL_glXMakeCurrent" = xyes; then :
   $as_echo "#define HAVE_GL 1" >>confdefs.h
 
-		     GLLIB="-lGL"
+		     GLLIBS="-lGL"
 else
   { $as_echo "$as_me:${as_lineno-$LINENO}: checking for glXMakeCurrent in -lMesaGL" >&5
 $as_echo_n "checking for glXMakeCurrent in -lMesaGL... " >&6; }
@@ -7570,7 +7709,7 @@ $as_echo "$ac_cv_lib_MesaGL_glXMakeCurrent" >&6; }
 if test "x$ac_cv_lib_MesaGL_glXMakeCurrent" = xyes; then :
   $as_echo "#define HAVE_GL 1" >>confdefs.h
 
-			 GLLIB="-lMesaGL"
+			 GLLIBS="-lMesaGL"
 fi
 
 fi
@@ -7625,10 +7764,10 @@ if test "x$ac_cv_header_GL_glu_h" = xyes; then :
   $as_echo "#define HAVE_GL_GLU_H 1" >>confdefs.h
 
 		if test x$ac_cv_lib_GL_glXMakeCurrent = xyes; then
-		    GLLIB="-lGLU $GLLIB"
+		    GLLIBS="-lGLU $GLLIBS"
 		fi
 		if test x$ac_cv_lib_MesaGL_glXMakeCurrent = xyes; then
-		    GLLIB="-lMesaGLU $GLLIB"
+		    GLLIBS="-lMesaGLU $GLLIBS"
 		fi
 
 fi
@@ -7710,8 +7849,9 @@ fi
 	xft_found=no
 	if test x$enable_xft != xno; then
             # Try pkg-config first (freetype2 deprecated freetype-config from some version on)
-            # Extract the first word of "pkg-config", so it can be a program name with args.
-set dummy pkg-config; ac_word=$2
+            if test -n "$ac_tool_prefix"; then
+  # Extract the first word of "${ac_tool_prefix}pkg-config", so it can be a program name with args.
+set dummy ${ac_tool_prefix}pkg-config; ac_word=$2
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
 $as_echo_n "checking for $ac_word... " >&6; }
 if ${ac_cv_path_PKGCONFIG+:} false; then :
@@ -7749,6 +7889,63 @@ else
 $as_echo "no" >&6; }
 fi
 
+
+fi
+if test -z "$ac_cv_path_PKGCONFIG"; then
+  ac_pt_PKGCONFIG=$PKGCONFIG
+  # Extract the first word of "pkg-config", so it can be a program name with args.
+set dummy pkg-config; ac_word=$2
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
+$as_echo_n "checking for $ac_word... " >&6; }
+if ${ac_cv_path_ac_pt_PKGCONFIG+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  case $ac_pt_PKGCONFIG in
+  [\\/]* | ?:[\\/]*)
+  ac_cv_path_ac_pt_PKGCONFIG="$ac_pt_PKGCONFIG" # Let the user override the test with a path.
+  ;;
+  *)
+  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+    for ac_exec_ext in '' $ac_executable_extensions; do
+  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
+    ac_cv_path_ac_pt_PKGCONFIG="$as_dir/$ac_word$ac_exec_ext"
+    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+  done
+IFS=$as_save_IFS
+
+  ;;
+esac
+fi
+ac_pt_PKGCONFIG=$ac_cv_path_ac_pt_PKGCONFIG
+if test -n "$ac_pt_PKGCONFIG"; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_pt_PKGCONFIG" >&5
+$as_echo "$ac_pt_PKGCONFIG" >&6; }
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+fi
+
+  if test "x$ac_pt_PKGCONFIG" = x; then
+    PKGCONFIG=""
+  else
+    case $cross_compiling:$ac_tool_warned in
+yes:)
+{ $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: using cross tools not prefixed with host triplet" >&5
+$as_echo "$as_me: WARNING: using cross tools not prefixed with host triplet" >&2;}
+ac_tool_warned=yes ;;
+esac
+    PKGCONFIG=$ac_pt_PKGCONFIG
+  fi
+else
+  PKGCONFIG="$ac_cv_path_PKGCONFIG"
+fi
 
             FT_FLAGS=""
             if test "x$PKGCONFIG" != x; then
@@ -8666,7 +8863,7 @@ _ACEOF
 
     else
 	cat >>confdefs.h <<_ACEOF
-#define FLTK_DOCDIR "$prefix/share/doc/fltk"
+#define FLTK_DOCDIR "$prefix/share/doc/fltk1.3-doc/HTML"
 _ACEOF
 
     fi

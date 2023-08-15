@@ -2,6 +2,7 @@ libfltk_gl.so.1.3 libfltk-gl1.3 #MINVER#
 * Build-Depends-Package: libfltk1.3-dev
 (optional)#include "libfltk-gl1.3.symbols.no-gcc49"
 (optional)#include "libfltk-gl1.3.symbols.no-clang"
+(optional)#include "libfltk-gl1.3.symbols.no-lto"
  _Z10gl_descentv@Base 0
  _Z10gl_measurePKcRiS1_@Base 0
  _Z12glutIdleFuncPFvvE@Base 0
@@ -127,15 +128,12 @@ libfltk_gl.so.1.3 libfltk-gl1.3 #MINVER#
  _ZTI12Fl_Gl_Window@Base 0
  _ZTI14Fl_Glut_Window@Base 0
  _ZTI16Fl_Device_Plugin@Base 0
- _ZTI19Fl_Gl_Device_Plugin@Base 0
  _ZTS12Fl_Gl_Window@Base 0
  _ZTS14Fl_Glut_Window@Base 0
  _ZTS16Fl_Device_Plugin@Base 0
  _ZTS19Fl_Gl_Device_Plugin@Base 0
  _ZTV12Fl_Gl_Window@Base 0
  _ZTV14Fl_Glut_Window@Base 0
- _ZTV16Fl_Device_Plugin@Base 0
- _ZTV19Fl_Gl_Device_Plugin@Base 0
  fl_gl_load_plugin@Base 0
  glutBitmap8By13@Base 0
  glutBitmap9By15@Base 0
