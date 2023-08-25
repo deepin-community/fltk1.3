@@ -21,8 +21,6 @@
 FLTKFLAGS = -DFL_LIBRARY
 include ../makeinclude
 
-CXXFLAGS := $(CXXFLAGS:-fPIE=-fPIC)
-
 #
 # Object files...
 #

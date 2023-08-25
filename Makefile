@@ -101,8 +101,8 @@ makeinclude: configure configh.in makeinclude.in config.guess config.sub
 	touch config.h
 	chmod +x fltk-config
 
-# configure: configure.ac
-# 	autoconf
+configure: configure.ac
+	autoconf
 
 config.guess config.sub:
 	-automake --add-missing 2> /dev/null

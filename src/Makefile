@@ -217,9 +217,6 @@ UTF8CFILES = \
 FLTKFLAGS = -DFL_LIBRARY
 include ../makeinclude
 
-CFLAGS   := $(CFLAGS:-fPIE=-fPIC)
-CXXFLAGS := $(CXXFLAGS:-fPIE=-fPIC)
-
 MMFILES = $(shell if test $(USEMMFILES) = Yes; then echo $(OBJCPPFILES); fi)
 
 OBJECTS =  $(MMFILES:.mm=.o) $(CPPFILES:.cxx=.o) $(CFILES:.c=.o) $(UTF8CFILES:.c=.o)
@@ -240,7 +237,7 @@ $(LIBNAME): $(OBJECTS)
 
 libfltk.so.$(FL_DSO_VERSION): $(OBJECTS)
 	echo $(DSOCOMMAND) $@ ...
-	$(DSOCOMMAND) $@ $(OBJECTS) $(LDLIBS) -lpthread
+	$(DSOCOMMAND) $@ $(OBJECTS) $(LDLIBS)
 	$(RM) libfltk.so
 	$(LN) libfltk.so.$(FL_DSO_VERSION) libfltk.so
 

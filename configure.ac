@@ -38,7 +38,6 @@ OPTIM="${OPTIM:=}"
 dnl Find compiler commands...
 AC_PROG_CC
 AC_PROG_CXX
-PKG_PROG_PKG_CONFIG
 
 dnl So --with-archflags option is used during "checking size of long"
 case $host_os in
@@ -131,7 +130,7 @@ if test x$enable_cairoext = xyes; then
 	  dnl FIXME This part should be fixed so configure do not depend on
 	  dnl we do not rely on pkg-config .
 	  CAIRODIR="cairo"
-	  CAIROFLAGS="`$PKG_CONFIG --cflags cairo`"
+	  CAIROFLAGS="`pkg-config --cflags cairo`"
 	  CAIROLIBS="-lcairo -lpixman-1"
 	  CXXFLAGS="$CAIROFLAGS $CXXFLAGS"
 	  LINKFLTKCAIRO="../lib/libfltk_cairo.a"
@@ -145,7 +144,7 @@ else
 	  dnl FIXME This part should be fixed so configure do not depend on
 	  dnl we do not rely on pkg-config .
 	  CAIRODIR="cairo"
-	  CAIROFLAGS="`$PKG_CONFIG --cflags cairo`"
+	  CAIROFLAGS="`pkg-config --cflags cairo`"
 	  CAIROLIBS="-lcairo -lpixman-1"
 	  CXXFLAGS="$CAIROFLAGS $CXXFLAGS"
 	  LINKFLTKCAIRO="../lib/libfltk_cairo.a"
@@ -309,9 +308,9 @@ if test x$enable_shared = xyes; then
 		CXXFLAGS="$CXXFLAGS -fvisibility-inlines-hidden"
 	    fi
 
-# 	    if test "x$libdir" != "x/usr/lib" -a "x$libdir" != "x/usr/lib64"; then
-# 		    DSOLINK="-Wl,-rpath,$libdir"
-# 	    fi
+	    if test "x$libdir" != "x/usr/lib" -a "x$libdir" != "x/usr/lib64"; then
+		    DSOLINK="-Wl,-rpath,$libdir"
+	    fi
 	    ;;
 	aix*)
 	    DSONAME="libfltk_s.a"
@@ -1017,7 +1016,7 @@ case $host_os_gui in
 	xft_found=no
 	if test x$enable_xft != xno; then
             # Try pkg-config first (freetype2 deprecated freetype-config from some version on)
-            AC_PATH_TOOL(PKGCONFIG, pkg-config)
+            AC_PATH_PROG(PKGCONFIG, pkg-config)
             FT_FLAGS=""
             if test "x$PKGCONFIG" != x; then
                 FT_FLAGS="`$PKGCONFIG --cflags xft`"
@@ -1480,7 +1479,7 @@ case $host_os in
     if test x$prefix = xNONE; then
 	AC_DEFINE_UNQUOTED(FLTK_DOCDIR, "/usr/local/share/doc/fltk")
     else
-	AC_DEFINE_UNQUOTED(FLTK_DOCDIR, "$prefix/share/doc/fltk1.3-doc/HTML")
+	AC_DEFINE_UNQUOTED(FLTK_DOCDIR, "$prefix/share/doc/fltk")
     fi
     ;;
 esac

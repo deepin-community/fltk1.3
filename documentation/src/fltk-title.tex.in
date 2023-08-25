@@ -8,7 +8,7 @@
 \vspace*{2cm}
 \begin{DoxyImageNoCaption}
  \mbox{\includegraphics[width=6cm]{FL200.png}}
-\end{DoxyImageNoCaption}
+\end{DoxyImageNoCaption}\\
 \vspace*{2cm}
 {\Large
 Revision 9.8 by F. Costantini, D. Gibson, M. Melcher, \\

@@ -226,26 +226,26 @@ if test "$BINARY_DIR" != ""; then
     includes="-I$BINARY_DIR $includes"
 fi
 
-# if test "$libdir" != /usr/lib -a "$libdir" != /usr/lib32; then
-#     libs=-L$libdir
-# else
-#     libs=
-# fi
+if test "$libdir" != /usr/lib -a "$libdir" != /usr/lib32; then
+    libs=-L$libdir
+else
+    libs=
+fi
 
 # Calculate needed libraries
 LDSTATIC="$libdir/libfltk.a $LDLIBS"
-LDLIBS="-lfltk$SHAREDSUFFIX -lX11"
+LDLIBS="-lfltk$SHAREDSUFFIX $LDLIBS"
 
 if test x$use_forms = xyes; then
     LDLIBS="-lfltk_forms$SHAREDSUFFIX $LDLIBS"
     LDSTATIC="$libdir/libfltk_forms.a $LDSTATIC"
 fi
 if test x$use_gl = xyes; then
-    LDLIBS="-lfltk_gl$SHAREDSUFFIX $LDLIBS"
+    LDLIBS="-lfltk_gl$SHAREDSUFFIX @GLLIBS@ $LDLIBS"
     LDSTATIC="$libdir/libfltk_gl.a @GLLIBS@ $LDSTATIC"
 fi
 if test x$use_images = xyes; then
-    LDLIBS="-lfltk_images$SHAREDSUFFIX $LDLIBS"
+    LDLIBS="-lfltk_images$SHAREDSUFFIX $IMAGELIBS $LDLIBS"
     LDSTATIC="$libdir/libfltk_images.a $STATICIMAGELIBS $LDSTATIC"
 fi
 
@@ -284,8 +284,8 @@ if test -n "$compile"; then
 
     post="$prog"
 
-    echo $CXX $ARCHFLAGS $includes $CXXFLAGS $debug -o "'$prog'" "'$compile'" $LDLIBS
-    $CXX $ARCHFLAGS $includes $CXXFLAGS $debug -o "$prog" "$compile" $LDLIBS || exit 1
+    echo $CXX $ARCHFLAGS $includes $CXXFLAGS $debug -o "'$prog'" "'$compile'" $LDSTATIC
+    $CXX $ARCHFLAGS $includes $CXXFLAGS $debug -o "$prog" "$compile" $LDSTATIC || exit 1
 fi
 
 if test -n "$post"; then
@@ -337,11 +337,11 @@ EOF
 fi
 
 if test "$echo_cflags" = "yes"; then
-    echo "$includes $CFLAGS" | sed -e 's/ -[DfgOW][^ ]*//g' -e 's/^ *//'
+    echo $includes $CFLAGS
 fi
 
 if test "$echo_cxxflags" = "yes"; then
-    echo "$includes $CXXFLAGS" | sed -e 's/ -[DfgOW][^ ]*//g' -e 's/^ *//'
+    echo $includes $CXXFLAGS
 fi
 
 if test "$echo_optim" = "yes"; then
@@ -361,11 +361,11 @@ if test "$echo_ldflags" = "yes"; then
 	    fi
 	fi
     done
-    echo " $libdirs $my_libs" | sed -e 's/ -W[^ ]*//g' -e 's/^ *//'
+    echo $libdirs $my_libs
 fi
 
 if test "$echo_ldstaticflags" = "yes"; then
-    echo " $LDSTATIC" | sed -e 's/ -W[^ ]*//g' -e 's/^ *//'
+    echo $LDSTATIC
 fi
 
 if test "$echo_libs" = "yes"; then
