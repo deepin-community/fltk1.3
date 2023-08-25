@@ -1,3 +1,9 @@
+fltk1.3 (1.3.8-5deepin) unstable; urgency=medium
+
+  * fix extract error.
+
+ -- Tianyu Chen <sweetyfish@deepin.org>  Fri, 25 Aug 2023 10:48:52 +0800
+
 fltk1.3 (1.3.8-5) unstable; urgency=medium
 
   * debian/fix-fltk-targets: Report command lines, which are now dynamic.

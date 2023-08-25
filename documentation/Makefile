@@ -52,8 +52,6 @@ MANPAGES =	$(SRC_DOCDIR)/fltk.$(CAT3EXT) $(SRC_DOCDIR)/fltk-config.$(CAT1EXT) \
 		$(SRC_DOCDIR)/fluid.$(CAT1EXT) $(SRC_DOCDIR)/blocks.$(CAT6EXT) \
 		$(SRC_DOCDIR)/checkers.$(CAT6EXT) $(SRC_DOCDIR)/sudoku.$(CAT6EXT)
 
-export DEB_DATE := $(shell cd .. && dpkg-parsechangelog -S Date)
-
 all:	$(MANPAGES)
 
 # Use `make docs' to create all docs for distribution files.
@@ -77,10 +75,10 @@ depend:
 
 install: $(MANPAGES)
 	echo "Installing documentation files in $(DESTDIR)$(docdir) ..."
-	-$(INSTALL_DIR) $(DESTDIR)$(docdir)/HTML
+	-$(INSTALL_DIR) $(DESTDIR)$(docdir)
 	if test -f html/index.html ; then \
 	  for file in html/* ; do \
-		$(INSTALL_DATA) $$file $(DESTDIR)$(docdir)/HTML; \
+		$(INSTALL_DATA) $$file $(DESTDIR)$(docdir); \
 	  done \
 	fi
 	if test -f fltk.pdf ; then \
@@ -180,18 +178,14 @@ refman.pdf: $(HTMLFILES) Doxybook src/fltk-book.tex
 	echo "Generating PDF documentation ..."
 	$(DOXYDOC) Doxybook
 	./make_pdf
-        MD5=`(echo $(DEB_DATE) && du -b $@) | md5sum | cut -c -32` && \
-        sed -i "s|^/ID \\[\\(<[0-9A-F]\\{32\\}>\\) \\1]$$|/ID [<$$MD5> <$$MD5>]|" $@
 
 src/fltk-book.tex: src/fltk-book.tex.in
 	echo "Generating $@ ..."
 	DOXY_VERSION=`$(DOXYDOC) --version|cut -f1 -d' '`; \
-	YEAR=`date -ud'$(DEB_DATE)' +%Y`; \
-	TODAY=`LC_ALL=C date -ud'$(DEB_DATE)' +'%B %e, %Y'`; \
+	YEAR=`date +%Y`; \
 	sed -e"s/@YEAR@/$$YEAR/g" \
 	    -e"s/@FLTK_VERSION@/$(FLTK_VERSION)/g" \
 	    -e"s/@DOXY_VERSION@/$$DOXY_VERSION/g" \
-	    -e"s/\\\\today{}/$$TODAY/g" \
 	< $< > $@
 
 src/fltk-book.tex.in: src/fltk-title.tex.in

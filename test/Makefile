@@ -16,12 +16,6 @@
 
 include ../makeinclude
 
-# LINKFLTK      = -L../src -Wl,-rpath-link,../src -lfltk
-# LINKFLTKFORMS = -L../src -Wl,-rpath-link,../src -lfltk_forms -lfltk
-# LINKFLTKGL    = -L../src -Wl,-rpath-link,../src -lfltk_gl -lfltk
-# LINKFLTKIMG   = -L../src -Wl,-rpath-link,../src -lfltk_images -lfltk
-# LINKSHARED    = -L../src -Wl,-rpath-link,../src -lfltk_images -lfltk_forms -lfltk
-
 CPPFILES =\
 	adjuster.cxx \
 	animated.cxx \

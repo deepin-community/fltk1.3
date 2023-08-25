@@ -89,8 +89,8 @@ install-linux:
 		fi; \
 		$(INSTALL_DATA) icons/fluid-$$size.png $(DESTDIR)/usr/share/icons/hicolor/$${size}x$${size}/apps/fluid.png; \
 	done
-	-$(INSTALL_DIR) $(DESTDIR)/usr/share/mime/packages
-	$(INSTALL_DATA) fluid.xml $(DESTDIR)/usr/share/mime/packages
+	-$(INSTALL_DIR) $(DESTDIR)/usr/share/mimelnk/application
+	$(INSTALL_DATA) x-fluid.desktop  $(DESTDIR)/usr/share/mimelnk/application
 
 install-osx:
 	echo Installing Fluid in $(DESTDIR)/Applications...
