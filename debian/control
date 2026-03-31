@@ -20,7 +20,7 @@ Build-Depends-Arch: cmake,
 Build-Depends-Indep: doxygen-latex,
                      texlive-font-utils,
                      texlive-latex-extra
-Standards-Version: 4.6.1
+Standards-Version: 4.6.2
 Vcs-Browser: https://salsa.debian.org/ucko/fltk1.3
 Vcs-Git: https://salsa.debian.org/ucko/fltk1.3.git
 Homepage: https://www.fltk.org/
